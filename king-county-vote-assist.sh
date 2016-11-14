@@ -1,7 +1,7 @@
 #!/bin/bash
 # Merge King County, WA, USA ballot signature page with pages from original ballot to save on size and preserve clarity while emailing.
 #
-# Copyright 2012-2015 Ian Leonard <antonlacon@gmail.com>
+# Copyright 2012-2016 Ian Leonard <antonlacon@gmail.com>
 #
 # This file is king-county-vote-assist.sh.
 #
@@ -18,14 +18,14 @@
 # along with king-county-vote-assist.sh. If not, see <http://www.gnu.org/licenses/>.
 #
 # Order of pages for submission:
-# Cover Sheet
-# Ballot Signature
-# Vote Selection
+# Ballot Declaration & Signature
+# Cover Sheet (optional for inclusion)
+# Vote Selections
 #
 # Order of voter packet:
 # Vote Selection
 # Vote Instructions
-# Ballot Signature
+# Ballot Declaration and Signature
 # Cover Sheet
 # Postage Paid Envelope Cover
 #
@@ -84,8 +84,8 @@ SIZE_OF_PDF="${SIZE_OF_PDF#*\ }"
 
 # Subtract last 4 pages from the page count - vote instructions / envelope
 (( COVER_SHEET = "${SIZE_OF_PDF}" - 1 ))
-(( VOTER_SELECTION_END = "${SIZE_OF_PDF}" - 5 ))
+(( VOTER_SELECTION_END = "${SIZE_OF_PDF}" - 4 ))
 
-pdftk A="${VOTER_PACKET}" B="${BALLOT_SIGNATURE}" cat A"${COVER_SHEET}" B A1-"${VOTER_SELECTION_END}"  output "${OUTPUT}"
+pdftk A="${VOTER_PACKET}" B="${BALLOT_SIGNATURE}" cat B A"${COVER_SHEET}" A1-"${VOTER_SELECTION_END}"  output "${OUTPUT}"
 
 exit 0
